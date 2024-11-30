@@ -8,7 +8,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     @Column(unique = true, nullable = false)
@@ -18,7 +18,7 @@ public class Customer {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
-    public Customer(Integer id, String firstName, String lastName, String email) {
+    public Customer(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,7 +28,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -40,7 +40,7 @@ public class Customer {
         this.image = image;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

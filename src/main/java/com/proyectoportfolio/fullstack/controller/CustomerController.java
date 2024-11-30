@@ -1,5 +1,6 @@
 package com.proyectoportfolio.fullstack.controller;
 
+import com.proyectoportfolio.fullstack.DTO.CustomerDTO;
 import com.proyectoportfolio.fullstack.configuration.ExternalizedConfigurations;
 import com.proyectoportfolio.fullstack.entity.Customer;
 import com.proyectoportfolio.fullstack.service.CustomerService;
@@ -30,7 +31,7 @@ public class CustomerController {
 
     //http://localhost:8080/api/customers
     @GetMapping
-    public ResponseEntity<List<Customer>> findAll(){
+    public ResponseEntity<List<CustomerDTO>> findAll(){
 
         System.out.println(externalizedConfigurations.toString());
 
@@ -39,16 +40,16 @@ public class CustomerController {
 
     //http://localhost:8080/api/customers/1
     @GetMapping("/{id}")
-    public Customer findById(@PathVariable("id") Integer id){
+    public CustomerDTO findById(@PathVariable("id") Long id){
         return customerService.findById(id);
     }
 
     //http://localhost:8080/api/customers
     @PostMapping
-    public ResponseEntity<?> save(@RequestPart Customer customer,
+    public ResponseEntity<?> save(@RequestPart CustomerDTO customer,
                          @RequestPart("file")MultipartFile file) throws IOException {
 
-        Customer c = customerService.save(customer, file);
+        CustomerDTO c = customerService.save(customer, file);
         if(c != null){
             return ResponseEntity.ok(c);
         }
@@ -58,30 +59,30 @@ public class CustomerController {
 
     //http://localhost:8080/api/customers/1
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(Customer customer) throws IOException {
+    public ResponseEntity<?> deleteById(@PathVariable("id") Long id) throws IOException {
 
-        Customer c = customerService.findById(customer.getId());
-        if(c != null){
-            customerService.delete(c);
-
+        try{
+            customerService.delete(id);
             return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e){
+
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se eliminó debido a que no se " +
+                    "encontró el cliente con id: "+ id);
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se eliminó debido a que no se " +
-                "encontró el cliente con id: "+ customer.getId());
+
+
     }
 
     //http://localhost:8080/api/customers
-    @PutMapping
-    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
 
-        Customer customerDB = customerService.findById(customer.getId());
+        CustomerDTO customerDB = customerService.findById(id);
 
         if(customerDB != null){
-
-            customerDB.setFirstName(customer.getFirstName());
-            customerDB.setLastName(customer.getLastName());
-            customerDB.setEmail(customer.getEmail());
+            customerService.update(customerDB, id);
 
             return ResponseEntity.noContent().build();
         }
@@ -92,11 +93,11 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}/image")
-    public ResponseEntity<?> updateCustomerImage(@PathVariable Integer id, @RequestPart("file")
+    public ResponseEntity<?> updateCustomerImage(@PathVariable("id") Long id, @RequestPart("file")
                                                         MultipartFile file) throws IOException {
-        Customer customer = customerService.findById(id);
+        CustomerDTO customer = customerService.findById(id);
         if(customer != null){
-            customerService.updateCustomerImage(file, customer);
+            customerService.updateCustomerImage(file, customer, id);
 
             return ResponseEntity.noContent().build();
         }
