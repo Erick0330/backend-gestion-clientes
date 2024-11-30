@@ -77,12 +77,12 @@ public class CustomerController {
 
     //http://localhost:8080/api/customers
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO customer, @PathVariable("id")Long id){
 
         CustomerDTO customerDB = customerService.findById(id);
 
         if(customerDB != null){
-            customerService.update(customerDB, id);
+            customerService.update(customer, id);
 
             return ResponseEntity.noContent().build();
         }

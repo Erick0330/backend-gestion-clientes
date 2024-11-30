@@ -99,6 +99,7 @@ public class CustomerServiceImpl implements CustomerService{
             currentCustomer.setLastName(customer.getLastName());
             currentCustomer.setEmail(customer.getEmail());
 
+
             customerRepository.save(currentCustomer);
             ModelMapper modelMapper = new ModelMapper();
 
