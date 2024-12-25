@@ -9,11 +9,11 @@ public class CrudFullstackApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CrudFullstackApplication.class, args);
-//
-//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//		String rawPassword = "admin";
-//		String encodedPassword = encoder.encode(rawPassword);
-//		System.out.println(encodedPassword);
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String rawPassword = "admin";
+		String encodedPassword = encoder.encode(rawPassword);
+		System.out.println(encodedPassword);
 	}
 
 }

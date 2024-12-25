@@ -1,1 +1,1 @@
-CREATE DATABASE customer_management	customersimageuser
+SELECT * FROM customer_management.role;

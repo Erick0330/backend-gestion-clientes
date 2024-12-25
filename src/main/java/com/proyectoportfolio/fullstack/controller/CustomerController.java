@@ -39,7 +39,7 @@ public class CustomerController {
     }
 
     //http://localhost:8080/api/customers/1
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
     public CustomerDTO findById(@PathVariable("id") Long id){
         return customerService.findById(id);
     }
