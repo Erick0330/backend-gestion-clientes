@@ -1,1 +1,1 @@
-CREATE DATABASE customer_management	customersimage
+CREATE DATABASE customer_management	customersimageuser
