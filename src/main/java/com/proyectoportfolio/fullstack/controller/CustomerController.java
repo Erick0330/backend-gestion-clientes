@@ -16,7 +16,7 @@ import java.util.List;
 
 //http://localhost:8080/api/customers
 @RestController
-@RequestMapping("/pri")
+@RequestMapping("/api/customers")
 //@CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
     
@@ -30,8 +30,7 @@ public class CustomerController {
     }
 
     //http://localhost:8080/api/customers
-    @GetMapping("/admin")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping
     public ResponseEntity<List<CustomerDTO>> findAll(){
 
         System.out.println(externalizedConfigurations.toString());
@@ -41,13 +40,13 @@ public class CustomerController {
 
     //http://localhost:8080/api/customers/1
     @GetMapping("/{id}")
-
     public CustomerDTO findById(@PathVariable("id") Long id){
         return customerService.findById(id);
     }
 
     //http://localhost:8080/api/customers
-    @PostMapping
+    @PostMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> save(@RequestPart CustomerDTO customer,
                          @RequestPart("file")MultipartFile file) throws IOException {
 
@@ -60,7 +59,8 @@ public class CustomerController {
     }
 
     //http://localhost:8080/api/customers/1
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteById(@PathVariable("id") Long id) throws IOException {
 
         try{
@@ -78,7 +78,8 @@ public class CustomerController {
     }
 
     //http://localhost:8080/api/customers
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO customer, @PathVariable("id")Long id){
 
         CustomerDTO customerDB = customerService.findById(id);
@@ -94,7 +95,8 @@ public class CustomerController {
                 "encontró el cliente con id: "+ customer.getId());
     }
 
-    @PutMapping("/{id}/image")
+    @PutMapping("/admin/{id}/image")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateCustomerImage(@PathVariable("id") Long id, @RequestPart("file")
                                                         MultipartFile file) throws IOException {
         CustomerDTO customer = customerService.findById(id);

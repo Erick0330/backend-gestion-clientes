@@ -23,9 +23,8 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.
-                        requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/api/customers").authenticated()
-                        .requestMatchers("/pri/admin").hasAuthority("ADMIN").anyRequest().authenticated())
+                        requestMatchers("/api/customers/**").permitAll()
+                        .requestMatchers("/api/customers/admin").hasAuthority("ADMIN").anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
