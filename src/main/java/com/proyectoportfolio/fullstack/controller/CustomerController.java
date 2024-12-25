@@ -2,22 +2,22 @@ package com.proyectoportfolio.fullstack.controller;
 
 import com.proyectoportfolio.fullstack.DTO.CustomerDTO;
 import com.proyectoportfolio.fullstack.configuration.ExternalizedConfigurations;
-import com.proyectoportfolio.fullstack.entity.Customer;
 import com.proyectoportfolio.fullstack.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+
 
 //http://localhost:8080/api/customers
 @RestController
-@RequestMapping("/api/customers")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/pri")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
     
     private final CustomerService customerService;
@@ -30,7 +30,8 @@ public class CustomerController {
     }
 
     //http://localhost:8080/api/customers
-    @GetMapping
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<CustomerDTO>> findAll(){
 
         System.out.println(externalizedConfigurations.toString());
@@ -40,6 +41,7 @@ public class CustomerController {
 
     //http://localhost:8080/api/customers/1
     @GetMapping("/{id}")
+
     public CustomerDTO findById(@PathVariable("id") Long id){
         return customerService.findById(id);
     }
