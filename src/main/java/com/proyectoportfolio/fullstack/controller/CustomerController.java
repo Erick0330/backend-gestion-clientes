@@ -17,7 +17,7 @@ import java.util.List;
 //http://localhost:8080/api/customers
 @RestController
 @RequestMapping("/api/customers")
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
     
     private final CustomerService customerService;
@@ -44,7 +44,7 @@ public class CustomerController {
         return customerService.findById(id);
     }
 
-    //http://localhost:8080/api/customers
+    //http://localhost:8080/api/customers/admin
     @PostMapping("/admin")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> save(@RequestPart CustomerDTO customer,
@@ -58,7 +58,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró el cliente con id: "+ customer.getId());
     }
 
-    //http://localhost:8080/api/customers/1
+    //http://localhost:8080/api/customers/admin/1
     @DeleteMapping("/admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteById(@PathVariable("id") Long id) throws IOException {
@@ -77,7 +77,7 @@ public class CustomerController {
 
     }
 
-    //http://localhost:8080/api/customers
+    //http://localhost:8080/api/customers/admin
     @PutMapping("/admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO customer, @PathVariable("id")Long id){
