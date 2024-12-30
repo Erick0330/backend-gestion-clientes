@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/signup")
+@RequestMapping("/admin/signup")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SignupController {
 

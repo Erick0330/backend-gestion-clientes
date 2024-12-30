@@ -1,1 +1,1 @@
-SELECT * FROM customer_management.image;
+SELECT * FROM customer_management.user;
