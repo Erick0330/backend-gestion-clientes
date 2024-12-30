@@ -8,7 +8,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -17,17 +17,17 @@ public class Image {
     private String imageUrl;
 
     @Column(nullable = false)
-    private String imageId;
+    private String imageCloudI;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getImageId() {
-        return imageId;
+    public String getImageCloudI() {
+        return imageCloudI;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,14 +47,14 @@ public class Image {
         this.imageUrl = imageUrl;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
+    public void setImageCloudI(String imageCloudI) {
+        this.imageCloudI = imageCloudI;
     }
 
     public Image(String name, String imageUrl, String imageId) {
         this.name = name;
         this.imageUrl = imageUrl;
-        this.imageId = imageId;
+        this.imageCloudI = imageId;
     }
 
     public Image() {

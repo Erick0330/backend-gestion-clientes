@@ -38,8 +38,9 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.findAll());
     }
 
-    //http://localhost:8080/api/customers/1
+    //http://localhost:8080/api/customers/admin/1
     @GetMapping("/admin/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public CustomerDTO findById(@PathVariable("id") Long id){
         return customerService.findById(id);
     }
@@ -48,7 +49,7 @@ public class CustomerController {
     @PostMapping("/admin")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> save(@RequestPart CustomerDTO customer,
-                         @RequestPart("file")MultipartFile file) throws IOException {
+                         @RequestPart(value = "file", required = false)MultipartFile file) throws IOException {
 
         CustomerDTO c = customerService.save(customer, file);
         if(c != null){

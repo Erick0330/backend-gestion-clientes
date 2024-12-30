@@ -2,6 +2,7 @@ package com.proyectoportfolio.fullstack.service;
 
 import com.proyectoportfolio.fullstack.entity.Image;
 import com.proyectoportfolio.fullstack.repository.ImageRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,8 +32,16 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
+    @Transactional
     public void deleteImage(Image image) throws IOException {
-        cloudinaryService.delete(image.getImageId());
-        imageRepository.deleteById(image.getId());
+        try {
+            imageRepository.deleteById(image.getId());
+            cloudinaryService.delete(image.getImageCloudI());
+            System.out.println("Image with ID " + image.getId() + " deleted successfully.");
+        } catch (Exception e) {
+            System.err.println("Error deleting image: " + e.getMessage());
+            throw e;
+        }
+
     }
 }

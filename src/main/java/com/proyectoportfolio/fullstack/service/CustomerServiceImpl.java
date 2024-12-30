@@ -5,6 +5,7 @@ import com.proyectoportfolio.fullstack.entity.Customer;
 import com.proyectoportfolio.fullstack.entity.Image;
 import com.proyectoportfolio.fullstack.exception.ResourceNotFoundException;
 import com.proyectoportfolio.fullstack.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
@@ -112,17 +113,21 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    @Transactional
     public CustomerDTO updateCustomerImage(MultipartFile file, CustomerDTO customer, Long id) throws IOException {
         Optional<Customer> customer1 = customerRepository.findById(id);
 
         if (customer1.isPresent()) {
             Customer currentCustomer = customer1.get();
             if (currentCustomer.getImage() != null) {
+                System.out.println("Es distinto de null");
                 imageService.deleteImage(currentCustomer.getImage());
             }
 
             Image newImage = imageService.uploadImage(file);
             currentCustomer.setImage(newImage);
+
+            customerRepository.save(currentCustomer);
 
             ModelMapper modelMapper = new ModelMapper();
 
